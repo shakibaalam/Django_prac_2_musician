@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+  <h1>Home Page</h1>
+
+  <div style="width: 80%; margin: 20px auto;">
+    {% if data %}
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Musician Name</th>
+            <th scope="col">Musician Email</th>
+            <th scope="col">Album Rating</th>
+            <th scope="col">Instrument Type</th>
+            <th scope="col">Album Name</th>
+            <th scope="col">Release Date</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for musician in data %}
+            {% for album in musician.albums.all %}
+              <tr>
+                <td>{{ musician.id }}</td>
+                <td><a href="{% url 'edit_musician' musician.id %}">{{ musician.f_name }} {{ musician.l_name }} </a></td>
+                <td>{{ musician.email }}</td>
+                <td>{{ album.rating }}</td>
+                <td>{{ musician.instrument_type }}</td>
+                <td>{{ album.name }}</td>
+                <td>{{ album.release_date }}</td>
+                <td>
+                  <a href="{% url 'edit_album' album.id %}" 
+                  class="btn btn-primary btn-sm">Edit Album</a>
+                  <a href="{% url 'delete_album' album.id %}" 
+                  class="btn btn-danger btn-sm">Delete Album</a>
+                </td>
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h2>No data found</h2>
+    {% endif %}
+  </div>
+{% endblock %}
