@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 from . import forms
 from . import models
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def add_musician(request):
     if request.method =='POST':
         musician_form=forms.MusicianForm(request.POST)
@@ -12,6 +14,7 @@ def add_musician(request):
         musician_form=forms.MusicianForm()
     return render(request, 'add_musician.html',{'form':musician_form})
 
+@login_required
 def edit_musician(request,id):
     post=models.MusicianModel.objects.get(pk=id)
     musician_form=forms.MusicianForm(instance=post)
